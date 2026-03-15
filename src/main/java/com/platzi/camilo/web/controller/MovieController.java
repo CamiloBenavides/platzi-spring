@@ -1,7 +1,8 @@
 package com.platzi.camilo.web.controller;
 
+import com.platzi.camilo.domain.dto.MovieDto;
+import com.platzi.camilo.domain.service.MovieService;
 import com.platzi.camilo.persistence.crud.CrudMovieEntity;
-import com.platzi.camilo.persistence.entity.MovieEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,14 +11,13 @@ import java.util.List;
 @RestController // Anotación que indica que esta clase es un controlador REST, lo que significa que manejará solicitudes HTTP y devolverá respuestas en formato JSON o XML.
 public class MovieController {
 
-    private final CrudMovieEntity crudMovieEntity;
-
-    public MovieController(CrudMovieEntity crudMovieEntity) {
-        this.crudMovieEntity = crudMovieEntity;
+    private final MovieService movieService;
+    public MovieController(CrudMovieEntity crudMovieEntity, MovieService movieService) {
+        this.movieService = movieService;
     }
 
     @GetMapping("/movies") // Se encarga de traer todas las peliculas que tenga en la base de datos y por medio del endpoint al buscarlo en la url del navegador me las va a mostrar en formato JSON
-    public List<MovieEntity> getAll() {
-        return (List<MovieEntity>) this.crudMovieEntity.findAll();
+    public List<MovieDto> getAll() {
+        return this.movieService.getAll();
     }
 }
